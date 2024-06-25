@@ -44,3 +44,19 @@ The cube moves are represented using standard notation:
 ## Stages and State Files
 
 Throughout the solving process, the program generates `stage_x.txt` files, where x represents the stage number, to store the current state of the cube after each solving phase. These files are essential for tracking the progress of the cube through its various stages of solving.
+
+## Usage
+
+You can already use the first stage (stage_0).
+for that you will need to compile following files using the Gnu compiler: 
+
+- g++ -c translateStage.cpp
+- g++ -c stageValidator.cpp
+- g++ -c cubeReader.cpp
+- g++ -o stageValidator stageValidator.o translateStage.o
+- g++ -o cubeReader cubeReader.o
+
+and then execute these files: 
+
+- ./cubeReader
+- ./stageValidator
