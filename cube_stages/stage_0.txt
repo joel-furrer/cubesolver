@@ -1,32 +1,24 @@
-{
-    {
-        {'Y', 'Y', 'Y'},
-        {'Y', 'Y', 'Y'},
-        {'Y', 'Y', 'Y'}
-    }, // Yellow side
-    {
-        {'O', 'O', 'O'},
-        {'O', 'O', 'O'},
-        {'O', 'O', 'O'}
-    }, // Orange side
-    {
-        {'W', 'W', 'W'},
-        {'W', 'W', 'W'},
-        {'W', 'W', 'W'}
-    }, // White side
-    {
-        {'R', 'R', 'R'},
-        {'R', 'R', 'R'},
-        {'R', 'R', 'R'}
-    }, // Red side
-    {
-        {'G', 'G', 'G'},
-        {'G', 'G', 'G'},
-        {'G', 'G', 'G'}
-    }, // Green side
-    {
-        {'B', 'B', 'B'},
-        {'B', 'B', 'B'},
-        {'B', 'B', 'B'}
-    }  // Blue side
-}
+O Y R 
+R Y O 
+G W B 
+
+Y R O 
+G O Y 
+R O R 
+
+B B G 
+G W G 
+G Y O 
+
+W R Y 
+W R O 
+B G W 
+
+W B O 
+Y G W 
+R R Y 
+
+W W B 
+B B B 
+Y O Y 
+

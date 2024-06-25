@@ -1,3 +1,4 @@
+//cubeReader.cpp
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -53,19 +54,15 @@ int main() {
     // Save cube state to a text file
     ofstream file("cube_stages/stage_0.txt");
     if (file.is_open()) {
-        file << "{\n";
         for (int i = 0; i < 6; i++) {
-            file << "    {\n";
-            file << "        {'" << cube[i][0][0] << "', '" << cube[i][0][1] << "', '" << cube[i][0][2] << "'},\n";
-            file << "        {'" << cube[i][1][0] << "', '" << cube[i][1][1] << "', '" << cube[i][1][2] << "'},\n";
-            file << "        {'" << cube[i][2][0] << "', '" << cube[i][2][1] << "', '" << cube[i][2][2] << "'}\n";
-            if (i < 5) {
-                file << "    }, // " << sides[i] << " side\n";
-            } else {
-                file << "    }  // " << sides[i] << " side\n";
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    file << cube[i][j][k] << ' ';
+                }
+                file << '\n';
             }
+            file << '\n';
         }
-        file << "}\n";
         file.close();
         cout << "Cube state saved to cube_stages/stage_0.txt" << endl;
     } else {
