@@ -1,0 +1,33 @@
+ich habe ein program translateStage.cpp, ich möchte dass das file eine funktion hat mit parameter, wo mann ein name eines files in den parameter eingibt wie jetzt zb stage_0.txt: {
+    {
+        {'Y', 'Y', 'Y'},
+        {'Y', 'Y', 'Y'},
+        {'Y', 'Y', 'Y'}
+    }, // Yellow side
+    {
+        {'O', 'O', 'O'},
+        {'O', 'O', 'O'},
+        {'O', 'O', 'O'}
+    }, // Orange side
+    {
+        {'W', 'W', 'W'},
+        {'W', 'W', 'W'},
+        {'W', 'W', 'W'}
+    }, // White side
+    {
+        {'R', 'R', 'R'},
+        {'R', 'R', 'R'},
+        {'R', 'R', 'R'}
+    }, // Red side
+    {
+        {'G', 'G', 'G'},
+        {'G', 'G', 'G'},
+        {'G', 'G', 'G'}
+    }, // Green side
+    {
+        {'B', 'B', 'B'},
+        {'B', 'B', 'B'},
+        {'B', 'B', 'B'}
+    }  // Blue side
+}
+, das programm ist dafür da das es aus dieser syntax einen array macht, so kann ich das programm in verschiedenen programmen einsetzten und verschiedene dieser stage_x.txt files in arrays verwandeln, es werden zwischen diesen stages die werte der farben anderst sein, aber die syntax bleibt, es ist immer ein "char cube[6][3][3];" das ersellt werden soll, heisst es soll so sein dass man kann zb im anfang eines programmen so etwas machen translateStage(stage_0.txt); oder so (und natürlich das programm einbinden)
