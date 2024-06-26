@@ -10,7 +10,7 @@ B B G
 G W G 
 G Y O 
 
-W R Y 
+W R G 
 W R O 
 B G W 
 
