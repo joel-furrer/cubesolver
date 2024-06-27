@@ -1,18 +1,21 @@
-//cubeReader.cpp
+// cubeReader.cpp
 
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <limits>  // for numeric_limits
+#include <ios>     // for streamsize
 
 using namespace std;
 
-//Create empty 3D cube array
+// Create empty 3D cube array
 char cube[6][3][3];
 
 string sides[6] = {"Yellow", "Orange", "White", "Red", "Green", "Blue"};
+string overSides[6] = {"Red", "Yellow", "Orange", "Yellow", "Yellow", "Yellow"};
 
-//Function to convert input to uppercase and validate
+// Function to convert input to uppercase and validate
 bool validateInput(char &input) {
     input = toupper(input);
     const char valid_input[6] = {'Y', 'O', 'W', 'R', 'G', 'B'};
@@ -25,35 +28,48 @@ bool validateInput(char &input) {
 }
 
 int main() {
-    //Short introduction
-    cout << "Welcome to the CubeSolver. For all following steps assume Yellow is the Top," << endl;
-    cout << "White the Bottom and Orange the front of the cube" << endl;
+    cout << "Welcome to the CubeSolver." << endl;
+    cout << "Please input the colors of each side of the Rubik's Cube following these instructions:" << endl;
+    cout << "Assume the cube is oriented with Yellow on top, Orange in front, and the colors around it as follows:" << endl;
     cout << "--------------------------------------------------------------" << endl;
 
-    //Iterate through the sides
     for (int i = 0; i < 6; i++) {
-        cout << "Name all colors for the " << sides[i] << " side:" << endl;
+        cout << "Enter colors for the " << sides[i] << " side." << endl;
+        cout << "View it as the side directly under " << overSides[i] << "." << endl;
+        cout << "Enter colors starting from the top-left to bottom-left, row by row." << endl;
 
-        //Iterate through the rows of the side
         for (int j = 0; j < 3; j++) {
-            cout << "Name all 3 colors from left to right for the " << j+1 << " row: ";
+            cout << "Row " << j + 1 << ": ";
             char left, middle, right;
             while (true) {
-                cin >> left >> middle >> right;
-                if (validateInput(left) && validateInput(middle) && validateInput(right)) {
-                    break;
-                } else {
-                    cout << "[Error: Invalid input. Only Y, O, W, R, G, B are accepted. Try again.]" << endl;
-                    cout << "Name all 3 colors from left to right for the " << j+1 << " row: ";
+                if (!(cin >> left >> middle >> right)) {
+                    cin.clear(); // clear error state
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard incorrect input
+
+                    cout << "[Error: Invalid input] Enter exactly 3 valid colors (Y, O, W, R, G, B): ";
+                    continue;
                 }
+
+                if (!validateInput(left) || !validateInput(middle) || !validateInput(right)) {
+                    cout << "[Error: Invalid colors] Enter valid colors (Y, O, W, R, G, B): ";
+                    continue;
+                }
+
+                if (cin.get() != '\n') {
+                    cout << "[Error: Too many characters] Enter exactly 3 colors (Y, O, W, R, G, B): ";
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard extra input
+                    continue;
+                }
+
+                break;
             }
+
             cube[i][j][0] = left;
             cube[i][j][1] = middle;
             cube[i][j][2] = right;
         }
     }
 
-    //Save cube state to a text file
     ofstream file("cube_stages/stage_0.txt");
     if (file.is_open()) {
         for (int i = 0; i < 6; i++) {
@@ -66,10 +82,9 @@ int main() {
             file << '\n';
         }
         file.close();
-        cout << "--------------------------------------------------------------" << endl;
         cout << "Cube state saved to cube_stages/stage_0.txt" << endl;
     } else {
-        cerr << "[Error: Unable to open file for writing.]" << endl;
+        cerr << "[Error: Unable to open file] cube_stages/stage_0.txt" << endl;
     }
 
     return 0;
