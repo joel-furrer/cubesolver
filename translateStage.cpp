@@ -1,15 +1,17 @@
-//translateStage.cpp
+// translateStage.cpp
 #include "translateStage.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
 
-void translateStage(const std::string& filename, char cube[6][3][3]) {
+// Function to read the cube data from a file and store it in the provided cube array
+// Returns true if the file is successfully read and false otherwise
+bool translateStage(const std::string& filename, char cube[6][3][3]) {
     std::ifstream file(filename);
     if (!file) {
         std::cerr << "Unable to open file " << filename << std::endl;
-        return;
+        return false;
     }
 
     std::string line;
@@ -23,10 +25,15 @@ void translateStage(const std::string& filename, char cube[6][3][3]) {
 
         std::istringstream iss(line);
         for (int col = 0; col < 3; ++col) {
-            iss >> cube[side][row][col];
+            if (!(iss >> cube[side][row][col])) {
+                std::cerr << "Error reading file " << filename << " at side " << side << ", row " << row << std::endl;
+                return false;
+            }
         }
         row++;
     }
 
     file.close();
+    std::cout << "translateStage successful" << std::endl;
+    return true;
 }

@@ -1,24 +1,24 @@
+B R G 
 O Y R 
-R Y O 
-G W B 
+R B W 
 
-Y R O 
-G O Y 
-R O R 
+G R B 
+G O B 
+Y G Y 
 
-B B G 
-G W G 
-G Y O 
+G O B 
+B W B 
+B R G 
 
-W R G 
-W R O 
-B G W 
+O W W 
+G R O 
+O G O 
 
-W B O 
-Y G W 
-R R Y 
+R Y W 
+W G Y 
+Y Y R 
 
-W W B 
-B B B 
-Y O Y 
+O Y W 
+O B W 
+R W Y 
 

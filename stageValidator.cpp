@@ -1,3 +1,4 @@
+//stageValidator
 #include <iostream>
 #include "translateStage.h"
 
@@ -59,7 +60,10 @@ bool validateCube(char cube[6][3][3]) {
 
 int main() {
     char cube[6][3][3];
-    translateStage("cube_stages/stage_0.txt", cube);
+    if (!translateStage("cube_stages/stage_0.txt", cube)) {
+        cerr << "Failed to translate stage." << endl;
+        return 1;
+    }
 
     // Validate the cube configuration
     if (validateCube(cube)) {
