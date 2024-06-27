@@ -1,87 +1,95 @@
-//stageValidator.cpp
+// stageValidator.cpp
 
 #include <iostream>
-#include "translateStage.h"
+#include <fstream>
+#include <string>
+#include <algorithm>
 
 using namespace std;
 
-//Function to validate if the cube configuration is possible
-bool validateCube(char cube[6][3][3]) {
-    const int max_count = 9;
-    int counts[6] = {0}; //Array to count occurrences of each color (Y, O, W, R, G, B)
+// Function to check if all six colors appear exactly 9 times
+bool validateColorCounts(char cube[6][3][3]) {
+    int count[6] = {0}; // Array to count occurrences of each color (Y, O, W, R, G, B)
 
-    //Check each side of the cube
+    // Count occurrences of each color
     for (int side = 0; side < 6; ++side) {
-        //Reset counts for each side
-        counts[0] = counts[1] = counts[2] = counts[3] = counts[4] = counts[5] = 0;
-
-        //Validate the middle piece of each side (second row)
-        char middle_piece = cube[side][1][1];
-        switch (middle_piece) {
-            case 'Y': counts[0]++; break;
-            case 'O': counts[1]++; break;
-            case 'W': counts[2]++; break;
-            case 'R': counts[3]++; break;
-            case 'G': counts[4]++; break;
-            case 'B': counts[5]++; break;
-            default: 
-                cout << "[Error: Invalid middle piece color on side " << side << "]" << endl;
-                return false; //Invalid color
-        }
-
-        //Count all pieces on this side
         for (int row = 0; row < 3; ++row) {
             for (int col = 0; col < 3; ++col) {
                 char color = cube[side][row][col];
-                switch (color) {
-                    case 'Y': counts[0]++; break;
-                    case 'O': counts[1]++; break;
-                    case 'W': counts[2]++; break;
-                    case 'R': counts[3]++; break;
-                    case 'G': counts[4]++; break;
-                    case 'B': counts[5]++; break;
-                    default: 
-                        cout << "[Error: Invalid color on side " << side << ", row " << row << ", col " << col << "]" << endl;
-                        return false; //Invalid color
-                }
-            }
-        }
-
-        //Check if all colors have exactly 9 pieces on this side
-        for (int i = 0; i < 6; ++i) {
-            if (counts[i] != max_count) {
-                cout << "[Error: Color count mismatch on side " << side << "]" << endl;
-                return false;
+                if (color == 'Y') count[0]++;
+                else if (color == 'O') count[1]++;
+                else if (color == 'W') count[2]++;
+                else if (color == 'R') count[3]++;
+                else if (color == 'G') count[4]++;
+                else if (color == 'B') count[5]++;
             }
         }
     }
 
-    //Check the order of middle pieces across all sides
-    if (!(counts[0] == 9 && counts[1] == 9 && counts[2] == 9 && counts[3] == 9 && counts[4] == 9 && counts[5] == 9)) {
-        cout << "[Error: Total color count mismatch]" << endl;
-        return false;
+    // Check if each color appears exactly 9 times
+    for (int i = 0; i < 6; ++i) {
+        if (count[i] != 9) {
+            cout << "[Validation Failed] Color " << (char)('Y' + i) << " appears " << count[i] << " times instead of 9." << endl;
+            return false;
+        }
     }
 
+    cout << "[Validation Passed] All colors appear exactly 9 times." << endl;
     return true;
 }
 
+// Function to check if the center pieces of each side are correct
+bool validateCenterPieces(char cube[6][3][3]) {
+    char centers[6] = {'Y', 'O', 'W', 'R', 'G', 'B'};
+    bool isValid = true;
+
+    for (int side = 0; side < 6; ++side) {
+        char center = cube[side][1][1];
+        if (center != centers[side]) {
+            cout << "[Validation Failed] Center piece of " << (char)('Y' + side) << " side is incorrect." << endl;
+            isValid = false;
+        }
+    }
+
+    if (isValid) {
+        cout << "[Validation Passed] All center pieces are correct." << endl;
+    }
+
+    return isValid;
+}
+
 int main() {
-    //Cube array to store the state
+    cout << "Starting stageValidator program." << endl;
+
     char cube[6][3][3];
-    
-    //Translate the stage file to the cube array
-    if (!translateStage("cube_stages/stage_0.txt", cube)) {
-        cerr << "[Error: Failed to translate stage.]" << endl;
+
+    // Read cube state from stage_0.txt
+    ifstream file("cube_stages/stage_0.txt");
+    if (!file.is_open()) {
+        cerr << "[Error] Unable to open file: cube_stages/stage_0.txt" << endl;
         return 1;
     }
 
-    //Validate the cube configuration
-    if (validateCube(cube)) {
-        cout << "--------------------------------------------------------------" << endl;
-        cout << "Cube configuration is valid." << endl;
+    // Read cube state into the cube array
+    for (int side = 0; side < 6; ++side) {
+        for (int row = 0; row < 3; ++row) {
+            for (int col = 0; col < 3; ++col) {
+                if (!(file >> cube[side][row][col])) {
+                    cerr << "[Error] Failed to read cube state from file." << endl;
+                    return 1;
+                }
+            }
+        }
+    }
+    file.close();
+
+    cout << "Cube state loaded from cube_stages/stage_0.txt." << endl;
+
+    // Validate cube colors and center pieces
+    if (validateColorCounts(cube) && validateCenterPieces(cube)) {
+        cout << "Cube validation successful." << endl;
     } else {
-        cout << "--------------------------------------------------------------" << endl;
-        cout << "[Error: Cube configuration is invalid.]" << endl;
+        cout << "Cube validation failed." << endl;
     }
 
     return 0;

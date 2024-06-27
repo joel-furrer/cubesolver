@@ -1,12 +1,8 @@
-//translateStage.h
-
-#ifndef TRANSLATESTAGE_H
-#define TRANSLATESTAGE_H
+#ifndef TRANSLATE_STAGE_H
+#define TRANSLATE_STAGE_H
 
 #include <string>
-#include <vector>
 
-//Function to translate stage file to array
-bool translateStage(const std::string& filename, char cube[6][3][3]);
+bool translateStage(const std::string& inputFile, char cube[6][3][3]);
 
-#endif // TRANSLATESTAGE_H
+#endif // TRANSLATE_STAGE_H

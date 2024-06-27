@@ -1,47 +1,35 @@
-//translateStage.cpp
-
-#include "translateStage.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <vector>
+#include <string>
 
 using namespace std;
 
-//Function to read the cube data from a file and store it in the provided cube array
-//Returns true if the file is successfully read and false otherwise
-bool translateStage(const std::string& filename, char cube[6][3][3]) {
-    //Attempt to open the file
-    ifstream file(filename);
-    if (!file) {
-        cerr << "[Error: Unable to open file " << filename << "]" << endl;
+bool translateStage(const string& inputFile, char cube[6][3][3]) {
+    cout << "Inside translateStage function." << endl;  // Debugging-Ausgabe hinzufügen
+
+    ifstream file(inputFile);
+    if (!file.is_open()) {
+        cerr << "Error: Unable to open file " << inputFile << endl;
         return false;
     }
 
-    string line;
-    int side = 0, row = 0;
-    //Read each line of the file
-    while (getline(file, line)) {
-        //Check for empty line to switch to next side
-        if (line.empty()) {
-            side++;
-            row = 0;
-            continue;
-        }
-
-        istringstream iss(line);
-        //Read and store the colors in the cube array
-        for (int col = 0; col < 3; ++col) {
-            if (!(iss >> cube[side][row][col])) {
-                cerr << "[Error: Reading file " << filename << " at side " << side << ", row " << row << "]" << endl;
-                return false;
+    int side = 0;
+    while (side < 6) {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                char color;
+                if (!(file >> color)) {
+                    cerr << "Error reading color from file." << endl;
+                    file.close();
+                    return false;
+                }
+                cube[side][i][j] = color;
+                cout << "Cube[" << side << "][" << i << "][" << j << "] = " << cube[side][i][j] << endl;  // Debugging-Ausgabe hinzufügen
             }
         }
-        row++;
+        ++side;
     }
 
     file.close();
-    cout << "--------------------------------------------------------------" << endl;
-    cout << "Stage translated successfully from " << filename << endl;
     return true;
 }
